@@ -63,16 +63,18 @@ module.exports = function (dest, opts) {
 	}
 
 	return through.obj(function (file, enc, cb) {
+		var _dest = dest;
+
 		if (file.isNull()) {
 			cb(null, file);
 			return;
 		}
 
-		if (typeof dest === 'function') {
-			dest = dest(file);
+		if (typeof _dest === 'function') {
+			_dest = _dest(file);
 		}
 
-		var newPath = path.resolve(opts.cwd, dest, file.relative);
+		var newPath = path.resolve(opts.cwd, _dest, file.relative);
 
 		if (opts.extension) {
 			newPath = gutil.replaceExtension(newPath, opts.extension);
